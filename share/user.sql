@@ -1,0 +1,13 @@
+PRAGMA foreign_KEYs=ON;
+BEGIN TRANSACTION;
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user( 
+    userid INTEGER PRIMARY KEY AUTOINCREMENT, 
+    fname TEXT NOT NULL, 
+    lname TEXT NOT NULL,
+    username TEXT NOT NULL, 
+    passwrd TEXT NOT NULL, 
+    UNIQUE(username)
+);
+COMMIT;
