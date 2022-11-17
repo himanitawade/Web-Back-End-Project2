@@ -90,7 +90,7 @@ async def userAuth():
         else:
             abort(401)
     else:
-        return {"error": "User not verified"}, 401, {'WWW-Authentication': 'Basic realm = "Login required"'}
+        return {"error": "User not verified"}, 401, {'WWW-Authenticate': 'Basic realm = "Login required"'}
         
 
 @app.errorhandler(409)
