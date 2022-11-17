@@ -1,30 +1,40 @@
-# Wordle Backend Project1 : API Endpoints
+### Backend Project 2
 
-Group 4 team members:
-Florentino Becerra,
-Himani Tawade,
-Kevin Delgado,
-Mohamed Habarneh
+| Group 5         |
+| --------------- |
+| Himani Tawade   |
+| Kenny Tran      |
+| Nicholas Girmes |
+| Mike Ploythai   |
 
-Steps to run the project:
+##### HOW TO RUN THE PROJECT
 
-1. Initialize the database and start the API:
+1. Set up NGINX using our custom [config file](https://github.com/himanitawade/Web-Back-End-Project2/blob/master/nginxconfig.txt)
 
-   ./bin/init.sh
+2. Initialize the databases
 
-2. Populate the data base by running the python script:
+   ```c
+      // give the script permissions to execute
+      chmod +x ./bin/init.sh
 
-   dbpop.py
+      // run the script
+      ./bin/init.sh
+   ```
 
-3. Start the API by running
+3. Populate the word databases
 
-   foreman start
+   ```c
+      python3 dbpop.py
+   ```
 
-4. Go to local.gd docs to view and test all the endpoints
+4. Start the API
 
-   http://wordle.local.gd:5000/docs
+   ```c
+      foreman start --formation game=4,user=1
+   ```
 
+5. Test all the endpoints
 
+User service: [http://tuffix-vm/docs](http://tuffix-vm/docs)
 
-
-
+Game service: [http://tuffix-vm:5100/docs](http://tuffix-vm:5100/docs)
