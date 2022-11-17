@@ -34,7 +34,5 @@
    ```
 
 5. Test all the endpoints
-
-User service: [http://tuffix-vm/docs](http://tuffix-vm/docs)
-
-Game service: [http://tuffix-vm:5100/docs](http://tuffix-vm:5100/docs)
+   - User service: [http://tuffix-vm/docs](http://tuffix-vm/docs)
+   - Game service: [http://tuffix-vm:5100/docs](http://tuffix-vm:5100/docs)
