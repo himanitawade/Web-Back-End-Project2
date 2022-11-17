@@ -1,17 +1,10 @@
 import dataclasses
 import sqlite3
 import textwrap
-from cmath import exp
-from pydoc import doc
-
 import databases
 import toml
 from quart import Quart, abort, g, request
-from quart_schema import (QuartSchema, RequestSchemaValidationError,
-                          validate_request)
-from functools import wraps
-connect = sqlite3.connect("data.db")
-cursor = connect.cursor()
+from quart_schema import QuartSchema, validate_request
 
 
 app = Quart(__name__)
@@ -19,12 +12,12 @@ QuartSchema(app)
 
 app.config.from_file(f"./etc/{__name__}.toml", toml.load)
 
+
 @dataclasses.dataclass
 class User:
-    first_name: str
-    last_name: str
     username: str
     password: str
+
 
 async def _connect_db():
     database = databases.Database(app.config["DATABASES"]["URL"])
@@ -48,10 +41,11 @@ async def close_connection(exception):
 @app.route("/", methods=["GET"])
 def index():
     return textwrap.dedent(
-            """
-            <h1>Welcome to Wordle 2.0!!!</h1>
-            """
-         )
+        """
+        <h1>Welcome to Wordle 2.0!!!</h1>
+        """
+    )
+
 
 @app.route("/registration", methods=["POST"])
 @validate_request(User)
@@ -59,39 +53,48 @@ async def create_user(data):
     db = await _get_db()
     user = dataclasses.asdict(data)
     try:
-        #Attempt to create new user in database
+        # Attempt to create new user in database
         id = await db.execute(
             """
-            INSERT INTO user(fname, lname, username, passwrd)
-            VALUES(:first_name, :last_name, :username, :password)
+            INSERT INTO user VALUES(:username, :password)
             """,
             user,
         )
-    #Return 409 error if username is already in table
+    # Return 409 error if username is already in table
     except sqlite3.IntegrityError as e:
         abort(409, e)
 
     user["id"] = id
     return user, 201
 
+
 # User authentication endpoint
 @app.route("/login", methods=["GET"])
 async def userAuth():
+    # auth method referenced from https://www.youtube.com/watch?v=VW8qJxy4XcQ
     auth = request.authorization
     if auth and auth.username and auth.password:
         db = await _get_db()
+
         # Selection query with raw queries
-        select_query = "SELECT * FROM user WHERE username= :username AND passwrd= :password"
+        select_query = (
+            "SELECT * FROM user WHERE username= :username AND passwrd= :password"
+        )
         values = {"username": auth.username, "password": auth.password}
+
         # Run the command
-        result = await db.fetch_one( select_query, values)
+        result = await db.fetch_one(select_query, values)
         if result:
-            return { "authenticated": "true" }, 200
+            return {"authenticated": "true"}, 200
         else:
             abort(401)
     else:
-        return {"error": "User not verified"}, 401, {'WWW-Authenticate': 'Basic realm = "Login required"'}
-        
+        return (
+            {"error": "User not verified"},
+            401,
+            {"WWW-Authenticate": 'Basic realm = "Login required"'},
+        )
+
 
 @app.errorhandler(409)
 def conflict(e):
