@@ -86,16 +86,16 @@ upstream gameservice {
 5. Test all the endpoints using httpie
    - user
       - register account: `http POST http://tuffix-vm/registration username="yourusername" password="yourpassword"`
-      
+  ```    
        Sample Output:
       {
          "id": 3,
          "password": "tawade",
          "username": "himani"
       }
-
+```
      - login {Not accesible}: 'http --auth himani:tawade GET http://tuffix-vm/login'
-
+'''
      Sample Output:
       HTTP/1.1 404 Not Found
       Connection: keep-alive
@@ -112,20 +112,20 @@ upstream gameservice {
       <hr><center>nginx/1.18.0 (Ubuntu)</center>
       </body>
       </html>
-
+'''
    - game
 
       - create a new game: `http --auth yourusername:yourpassword POST http://tuffix-vm/newgame`
       
       Sample Output:
-
+'''
       'http --auth himani:tawade POST http://tuffix-vm/newgame'
       {
          "answerid": 3912,
          "gameid": "b0039f36-6784-11ed-ba4a-615e339a8400",
          "username": "himani"
       }
-
+'''
       Note - this will return a `gameid`
     - add a guess: `http --auth yourusername:yourpassword PUT http://tuffix-vm/addguess gameid="gameid" word="yourguess"`
 
