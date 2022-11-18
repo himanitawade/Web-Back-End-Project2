@@ -66,5 +66,4 @@ upstream backend {
     server 127.0.0.1:5100;
     server 127.0.0.1:5101;
     server 127.0.0.1:5102;
-}                                                                                                                                                                                     70,0-1        Bo
-                                
+}
