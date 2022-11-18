@@ -13,6 +13,7 @@
 
 Nginx Config:
 
+```
 server {
     listen 80;
     listen [::]:80;
@@ -57,6 +58,7 @@ upstream gameservice {
     server 127.0.0.1:5102;
     server 127.0.0.1:5103;
 }
+```
 
 2. Initialize the databases within the project folder
 
