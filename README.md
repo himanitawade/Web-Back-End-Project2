@@ -96,7 +96,6 @@ upstream gameservice {
       }
       ```
      - login {Not accesible}: 'http --auth himani:tawade GET http://tuffix-vm/login'
-     - 
      Sample Output:
      ```
       HTTP/1.1 404 Not Found
