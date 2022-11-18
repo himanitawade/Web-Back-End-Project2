@@ -86,17 +86,19 @@ upstream gameservice {
 5. Test all the endpoints using httpie
    - user
       - register account: `http POST http://tuffix-vm/registration username="yourusername" password="yourpassword"`
-  ```    
+    
        Sample Output:
+       ```
       {
          "id": 3,
          "password": "tawade",
          "username": "himani"
       }
-```
+      ```
      - login {Not accesible}: 'http --auth himani:tawade GET http://tuffix-vm/login'
-'''
+     - 
      Sample Output:
+     ```
       HTTP/1.1 404 Not Found
       Connection: keep-alive
       Content-Encoding: gzip
@@ -112,33 +114,35 @@ upstream gameservice {
       <hr><center>nginx/1.18.0 (Ubuntu)</center>
       </body>
       </html>
-'''
+      ```
    - game
 
       - create a new game: `http --auth yourusername:yourpassword POST http://tuffix-vm/newgame`
       
       Sample Output:
-'''
+      ```
       'http --auth himani:tawade POST http://tuffix-vm/newgame'
       {
          "answerid": 3912,
          "gameid": "b0039f36-6784-11ed-ba4a-615e339a8400",
          "username": "himani"
       }
-'''
+      ```
       Note - this will return a `gameid`
     - add a guess: `http --auth yourusername:yourpassword PUT http://tuffix-vm/addguess gameid="gameid" word="yourguess"`
 
     Sample Output:
+    ```
       http --auth himani:tawade PUT http://tuffix-vm/addguess gameid="b0039f36-6784-11ed-ba4a-615e339a8400" word="amigo"
      {
         "Accuracy": "XXOOO",
         "guessedWord": "amigo"
      }
-
+     ```
     - display your active games: `http --auth yourusername:yourpassword GET http://tuffix-vm/allgames`
 
     Sample Output:
+    ```
       http --auth himani:tawade GET http://tuffix-vm/allgames
       [
          {
@@ -147,9 +151,11 @@ upstream gameservice {
             "guesses": 1
          }
       ]
+      ```
     - display the game status and stats for one game: `http --auth yourusername:yourpassword GET http://tuffix-vm/onegame?id=gameid`
        - example: `.../onegame?id=b97fcbb0-6717-11ed-8689-e9ba279d21b6`
     Sample Output:
+    ```
       http --auth himani:tawade GET http://tuffix-vm/onegame?id="b0039f36-6784-11ed-ba4a-615e339a8400"
       [
          {
@@ -162,3 +168,4 @@ upstream gameservice {
              "guessedword": "amigo"
           }
       ]
+      ```
