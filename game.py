@@ -129,6 +129,12 @@ async def add_guess(data):
             "SELECT * from valid_word where valword = :word;",
             values={"word": currGame["word"]},
         )
+        if isValidGuess is None:
+            isValidGuess = await db.fetch_one(
+                "SELECT * from answer where answord = :word;",
+                values={"word": currGame["word"]},
+            )
+
         guessNum = await db.fetch_one(
             "SELECT guesses from game where gameid = :gameid",
             values={"gameid": currGame["gameid"]},
