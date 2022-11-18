@@ -23,12 +23,6 @@ class Guess:
     word: str
 
 
-# Testing
-@dataclasses.dataclass
-class GameID:
-    gameid: str
-
-
 async def _connect_db():
     database = databases.Database(app.config["DATABASES"]["URL"])
     await database.connect()
@@ -97,9 +91,7 @@ async def create_game():
 # if it is then insert into guess table
 # update game table by decrementing guess variable
 # if word is not valid throw 404 exception
-
-# NOTE - change method to PUT
-@app.route("/addguess", methods=["POST"])
+@app.route("/addguess", methods=["PUT"])
 @validate_request(Guess)
 async def add_guess(data):
     # auth method referenced from https://www.youtube.com/watch?v=VW8qJxy4XcQ
@@ -236,25 +228,27 @@ async def all_games():
         )
 
 
-# NOTE - ?id=guess --To Do function chge this to get the values in the search param format like books search api given by prof
 @app.route("/onegame", methods=["GET"])
-@validate_request(GameID)
-async def my_game(data):
+async def my_game():
     # auth method referenced from https://www.youtube.com/watch?v=VW8qJxy4XcQ
     auth = request.authorization
     if auth and auth.username and auth.password:
         db = await _get_db()
-        gameid = dataclasses.asdict(data)
+        gameid = request.args.get("id")
 
-        guess_val = await db.fetch_all(
-            "SELECT a.*, b.guesses, b.gstate FROM guess as a, game as b WHERE a.gameid = b.gameid and a.gameid = :gameid",
+        results = await db.fetch_all(
+            "select * from game where gameid = :gameid",
             values={"gameid": gameid},
         )
 
-        if guess_val is None or len(guess_val) == 0:
+        guess = await db.fetch_all(
+            "select guessedword, accuracy from guess where gameid = :gameid",
+            values={"gameid": gameid},
+        )
 
+        if results[0][2] == "Finished":
             return {"Message": "Not An Active Game"}, 406
-        return list(map(dict, guess_val))
+        return list(map(dict, (results + guess)))
     else:
         return (
             {"error": "User not verified"},
