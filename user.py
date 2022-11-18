@@ -38,16 +38,6 @@ async def close_connection(exception):
         await db.disconnect()
 
 
-@app.route("/", methods=["GET"])
-def index():
-
-        return textwrap.dedent(
-            """
-            <h1>Welcome to Wordle 2.0!!!</h1>
-            """
-        )
-
-
 @app.route("/registration", methods=["POST"])
 @validate_request(User)
 async def create_user(data):
