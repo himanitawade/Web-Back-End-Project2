@@ -38,7 +38,7 @@
    - user
       - register account: `http POST http://user-vm.local.gd/registration username="yourusername" password="yourpassword"`
       - landing page: `http GET http://user-vm.local.gd/`
-      - log in: `http --auth yourusername:yourpassword POST http://user-vm.local.gd/login`
+      - log in: `http --auth yourusername:yourpassword GET http://user-vm.local.gd/login`
    - game
       - create a new game: `http --auth yourusername:yourpassword POST http://game-vm.local.gd/newgame`
          - this will return a `gameid`
