@@ -23,12 +23,6 @@ class Guess:
     word: str
 
 
-# Testing
-@dataclasses.dataclass
-class GameID:
-    gameid: str
-
-
 async def _connect_db():
     database = databases.Database(app.config["DATABASES"]["URL"])
     await database.connect()
@@ -97,9 +91,7 @@ async def create_game():
 # if it is then insert into guess table
 # update game table by decrementing guess variable
 # if word is not valid throw 404 exception
-
-# NOTE - change method to PUT
-@app.route("/addguess", methods=["POST"])
+@app.route("/addguess", methods=["PUT"])
 @validate_request(Guess)
 async def add_guess(data):
     # auth method referenced from https://www.youtube.com/watch?v=VW8qJxy4XcQ
@@ -263,10 +255,8 @@ async def my_game():
             401,
             {"WWW-Authenticate": 'Basic realm = "Login required"'},
         )
-        
+
+
 @app.errorhandler(409)
 def conflict(e):
     return {"error": str(e)}, 409
-
-
-# For one game endpoint #?id=guess --To Do function chge this to get the values in the search param format like books search api given by prof
