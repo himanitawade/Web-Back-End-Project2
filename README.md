@@ -30,9 +30,9 @@
 4. Start the API
 
    ```c
-      foreman start --formation game=4,user=1
+      foreman start --formation game=3,user=1
    ```
 
 5. Test all the endpoints
-   - User service: [http://tuffix-vm/docs](http://tuffix-vm/docs)
-   - Game service: [http://tuffix-vm:5100/docs](http://tuffix-vm:5100/docs)
+   - User service: 
+   - Game service:

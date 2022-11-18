@@ -40,11 +40,20 @@ async def close_connection(exception):
 
 @app.route("/", methods=["GET"])
 def index():
-    return textwrap.dedent(
-        """
-        <h1>Welcome to Wordle 2.0!!!</h1>
-        """
-    )
+    auth = request.authorization
+    if auth and auth.username and auth.password:
+
+        return textwrap.dedent(
+            """
+            <h1>Welcome to Wordle 2.0!!!</h1>
+            """
+        )
+    else:
+        return (
+            {"error": "User not verified"},
+            401,
+            {"WWW-Authenticate": 'Basic realm = "Login required"'},
+        )
 
 
 @app.route("/registration", methods=["POST"])
